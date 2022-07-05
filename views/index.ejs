@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected File Sharing</title>
+    <style>
+        form{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2rem;
+            font-size: 2rem;
+            height: 100vh;
+            text-align: center;
+        }
+        label{
+            display: block;
+         
+        }
+        input{
+            display: block;
+            font-size: inherit;
+        }
+        .form-group{
+            display:flex;
+        }
+    </style>
+</head>
+
+<body>
+
+  
+  
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <% if (locals.fileLink !=null) {%>
+            <div>
+                Your file is uploaded 
+                <a href="<%=locals.fileLink%>"><%=locals.fileLink%></a>
+            </div>
+        <%}%>
+    
+
+        <div class="form-group">
+            <label for="file">File:  </label>
+            <input type="file" id="file" name="file" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password </label>
+            <input type="text" id="password" name="password" >
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Share">
+        </div>
+    </form>
+    
+</body>
+</html>
