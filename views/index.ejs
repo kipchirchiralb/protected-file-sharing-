@@ -6,56 +6,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protected File Sharing</title>
     <style>
-        form{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 2rem;
-            font-size: 2rem;
-            height: 100vh;
-            text-align: center;
-        }
-        label{
-            display: block;
-         
-        }
-        input{
-            display: block;
-            font-size: inherit;
-        }
-        .form-group{
-            display:flex;
+        *{
+            padding:0;
+            margin: 0;
+            box-sizing: border-box;
+            word-wrap: break-word;
         }
     </style>
 </head>
 
 <body>
 
-  
-  
-
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <% if (locals.fileLink !=null) {%>
-            <div>
-                Your file is uploaded 
-                <a href="<%=locals.fileLink%>"><%=locals.fileLink%></a>
+    <div class="main" >
+        <div>
+            <nav style="display: flex; background-color:#3de73d; justify-content:space-between; align-items:center; height: 3rem; padding: 0 16px">
+                <a href="/" style="text-decoration: none; color: #000;">
+                    <h1>Share Files</h1>
+                </a>
+                <div>
+                    <img src="images/bars.svg" alt="" style="height: 30px; width: 30px">
+                    <img src="images/close.svg" alt="" style="height: 30px; width: 30px">
+                </div>
+            </nav>
+        </div>
+        <form action="/upload" method="post" enctype="multipart/form-data" style="padding:16px">
+            <% if (locals.fileLink !=null) {%>
+                <div>
+                    Your file is uploaded
+                    <a href="<%=locals.fileLink%>"><%=locals.fileLink%></a>
+                </div>
+            <%}%>
+        
+            <div class="form-group">
+                <label for="file">File:  </label>
+                <input type="file" id="file" name="file" required>
             </div>
-        <%}%>
-    
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="text" id="password" name="password" placeholder="optional">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Share">
+            </div>
+        </form>
+        <form action="/clear" method="post">
+            <input type="submit" value="CLEAR">
+        </form>
 
-        <div class="form-group">
-            <label for="file">File:  </label>
-            <input type="file" id="file" name="file" required>
+        <div class="shared-files">
+            <%let filePaths = locals.filePaths.split(',')%>
+            <%let fileNames = locals.fileNames.split(',')%>
+
+            <h1>You have <%=filePaths?.length%> files</h1>
+            <%if (filePaths?.length>0){%>
+                <div class="gallery-container">
+                    <%for(let i=0; i<filePaths.length; i++){%>
+                            <div class="file">
+                                <hr/>
+                                <h1><%=fileNames[i]%></h1>
+                                <h1><%=filePaths[i]%></h1>
+                                <img style="width:50px; height: 80px; border: 2px solid green" src="/uploads/<%=filePaths[i]%>" alt="<%=fileNames[i]%>">
+                            </div>
+                        <%}%>
+                </div>
+            <%}%>
+            <div style="display: flex;">
+                
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password </label>
-            <input type="text" id="password" name="password" >
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Share">
-        </div>
-    </form>
+    </div>
+
+   
     
 </body>
 </html>
